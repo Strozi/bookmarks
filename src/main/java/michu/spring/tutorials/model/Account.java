@@ -11,9 +11,16 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-@Data
+
 @Entity
+@Getter
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Account {
 	
 	@OneToMany
@@ -25,8 +32,8 @@ public class Account {
 
 	
 	@JsonIgnore
-	public String password;
-	public String username;
+	@NonNull public String password;
+	@NonNull public String username;
 	
 	
 	
