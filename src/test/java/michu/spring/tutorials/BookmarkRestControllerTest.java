@@ -113,6 +113,32 @@ public class BookmarkRestControllerTest {
 	}
 	
 	
+	@Test
+	public void readBookmarks() throws Exception{
+		
+		mockMvc.perform(get("/" + userName + "/bookmarks"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(contentType))
+				.andExpect(jsonPath("$", hasSize(2)))
+				.andExpect(jsonPath("$[0].id", is(this.bookmarkList.get(0).getId().intValue())))
+				.andExpect(jsonPath("$[0].uri", is("http://bookmarks.com/1/" + userName)))
+				.andExpect(jsonPath("$[0].description", is("A description")))
+				.andExpect(jsonPath("$[1].id", is(this.bookmarkList.get(1).getId().intValue())))
+				.andExpect(jsonPath("$[1].uri", is("http://bookmarks.com/2/" + userName)))
+				.andExpect(jsonPath("$[1].description", is("A description")));
+			
+	}
+	
+	@Test
+	public void createBookmark() throws Exception{
+		
+		String bookmarkJson = json(new Bookmark(this.account, "http://spring.io" , "a bookmark to the best resource for Spring news and information"));
+	
+		this.mockMvc.perform(post("/" + userName + "/bookmarks")
+				.contentType(contentType)
+				.content(bookmarkJson))
+				.andExpect(status().isCreated());
+	}
 	
 	
 	protected String json(Object o ) throws IOException{		
